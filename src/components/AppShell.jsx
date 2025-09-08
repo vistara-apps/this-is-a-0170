@@ -7,15 +7,20 @@ import {
   User, 
   Star,
   Menu,
-  X
+  X,
+  BarChart3,
+  Bell
 } from 'lucide-react'
+import { NotificationBadge } from './NotificationBadge'
 
 const iconMap = {
   Home,
   Book,
   Mic,
   User,
-  Star
+  Star,
+  BarChart3,
+  Bell
 }
 
 export const AppShell = ({ 
@@ -24,7 +29,9 @@ export const AppShell = ({
   navigationItems, 
   onNavigate, 
   user, 
-  selectedPet 
+  selectedPet,
+  notifications = [],
+  onDismissNotification
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
 
@@ -44,6 +51,21 @@ export const AppShell = ({
                   <p className="text-xs text-gray-600">{selectedPet.name} the {selectedPet.species}</p>
                 )}
               </div>
+              
+              {/* Notifications */}
+              {notifications.length > 0 && (
+                <div className="flex items-center space-x-2 ml-4">
+                  {notifications.map(notification => (
+                    <NotificationBadge
+                      key={notification.id}
+                      type={notification.type}
+                      count={notification.count}
+                      message={notification.message}
+                      onDismiss={() => onDismissNotification?.(notification.id)}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Desktop Navigation */}
